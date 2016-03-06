@@ -174,7 +174,9 @@ CC_Programmer::OpenResult CC_Programmer::open()
 
 //==============================================================================
 void CC_Programmer::close()
-{	usb_device_.close(); }
+{	
+    usb_device_.close(); 
+}
 
 //==============================================================================
 bool CC_Programmer::opened() const
@@ -209,7 +211,7 @@ void CC_Programmer::request_device_info()
 
 	const uint8_t USB_REQUEST_GET_STATE	= 0xC0;
 
-	log_info("programmer, request device state");
+    log_info("programmer, request device state");
 
 	uint8_t info[8];
 	usb_device_.control_read(LIBUSB_REQUEST_TYPE_VENDOR, USB_REQUEST_GET_STATE,
@@ -255,7 +257,10 @@ void CC_Programmer::unit_status(String &name, bool &supported) const
 
 //==============================================================================
 void CC_Programmer::unit_close()
-{	driver_->reset(false); }
+{	
+    driver_->reset(false); 
+}
+
 
 //==============================================================================
 void CC_Programmer::enter_debug_mode()
@@ -279,6 +284,7 @@ void CC_Programmer::enter_debug_mode()
 
 	usb_device_.control_write(LIBUSB_REQUEST_TYPE_VENDOR | LIBUSB_ENDPOINT_OUT,
 			USB_SET_CHIP_INFO, 1, 0, &command[0], command.size());
+    log_info("programmer, changed to debug mode");
 }
 
 //==============================================================================

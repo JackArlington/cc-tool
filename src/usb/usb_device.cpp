@@ -106,7 +106,9 @@ USB_Device::USB_Device() :
 
 //==============================================================================
 USB_Device::~USB_Device()
-{	close(); }
+{	
+    close(); 
+}
 
 //==============================================================================
 void USB_Device::init_context()
@@ -133,6 +135,13 @@ void USB_Device::close()
 {
 	if (handle_)
 	{
+        /* the reset is a workaround to fix a bug
+         * some bulk transfer does not end, and when the device is closed 
+         * with an open transfer it is blocked.
+         * by reseting the bulk transfer this blockade can be avoided.
+         * Need to find the unclosed bulk transfer and fix this properly
+         */
+        libusb_reset_device(handle_);
 		libusb_close(handle_);
 		handle_ = NULL;
 	}
@@ -172,7 +181,7 @@ bool USB_Device::open_by_address(uint8_t bus_number, uint8_t device_address)
 {
 	init_context();
 	close();
-
+    
 	libusb_device_vector devices;
 	USB_Enumerator enumerator(context_, devices);
 

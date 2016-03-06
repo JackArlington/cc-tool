@@ -124,6 +124,7 @@ bool CC_Base::read_options(const po::options_description &desc, const po::variab
 //==============================================================================
 bool CC_Base::init_unit()
 {
+    std::cout << "  Initialize Unit" << "\n";
 	String unit_name;
 	bool supported = false;
 	programmer_.unit_status(unit_name, supported);
@@ -141,7 +142,6 @@ bool CC_Base::init_unit()
 		log_info("main, target not suported");
 		return false;
 	}
-
 	boost::to_upper(option_unit_name_);
 	if (unit_name != option_unit_name_ && !option_unit_name_.empty())
 	{
@@ -154,6 +154,7 @@ bool CC_Base::init_unit()
 		std::cout << "  Unable to communicate with target" << "\n";
 		return false;
 	}
+    std::cout << "  Unit initialized" << "\n";
 	return true;
 }
 
